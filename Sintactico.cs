@@ -491,9 +491,16 @@ namespace Compilador_Python
                         }
                         else if (p.token == 210) // Palabra reservada | input
                         {
-                            insertarVariable();
+                            // Se agrega el operando del input a la lista de codigo intermedio.
+                            tmpLexema = p.siguiente.siguiente.lexema;
+                            insertarListaCodigoIntermedio();
+
+                            // Se agrega la palabra reservada input
                             tmpLexema = p.lexema;
                             insertarListaCodigoIntermedio();
+                            tmpLexema = "=";
+                            insertarListaCodigoIntermedio();
+
                             input_stmt();
                         }
                     }
@@ -632,9 +639,8 @@ namespace Compilador_Python
                     statement();
                     tmpLexema = "BRI-D" + instanciaDeD;
                     instanciaDeD = instanciaDeD + 1;
-                    AgregarApuntadores = false;
-                    insertarListaCodigoIntermedio();
                     AgregarApuntadores = true;
+                    insertarListaCodigoIntermedio();
                     tmpApuntadorC = "C" + instanciaDeC;
                     instanciaDeC = instanciaDeC + 1;
                     if (p.lexema == "endwhile") p = p.siguiente;
